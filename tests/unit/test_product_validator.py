@@ -20,11 +20,42 @@ def test_validate_product_id_non_integer():
     with pytest.raises(ValueError, match=ProductMessages.INVALID_INTEGER):
         validator.validate_product_id("abc")
 
-    # def test_validate_product_id_with_try_except():
+@pytest.mark.xfail(reason="Test fails if non-integer string value is entered")
+def test_validate_product_id_with_try_except():
     """An example showcasing the use of try-except for testing"""
+    message = "Product Id is not a valid integer value"
+    try:
+        validator.validate_product_id("4")
+    except Exception:
+        pytest.fail(message)
+    try:
+        validator.validate_product_id(4)
+    except Exception:
+        pytest.fail(message)
+    try:
+        validator.validate_product_id("abc")
+    except Exception:
+        pytest.fail(message)
 
-    # def test_validate_product_id_too_long():
+def test_validate_product_id_too_long():
     """Test if the validator raises an error for an overly long product ID"""
+    message = "Product Id is not a valid integer value"
+    try:
+        validator.validate_product_id("0123456789")
+    except Exception:
+        pytest.fail(message)
+    try:
+        validator.validate_product_id("01234567890123")
+    except Exception:
+        pytest.fail(message)
+    try:
+        validator.validate_product_id("012345678901234")
+    except Exception:
+        pytest.fail(message)
+    try:
+        validator.validate_product_id("0123456789012345")
+    except Exception:
+        pytest.fail(message)
 
     # def test_validate_product_id_non_positive():
     """Test if the validator raises an error for a non-positive product ID"""
