@@ -1,0 +1,7 @@
+{
+    "python.testing.pytestEnabled": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true // optional: if you want to format on save
+    }
+}
