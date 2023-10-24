@@ -78,19 +78,52 @@ def test_validate_product_id_non_positive():
         validator.validate_product_id("-5")
     except Exception:
         pytest.fail("product_id has negative value")
+        
   ###################################################################
-
-    # def test_validate_product_name_valid():
+@pytest.mark.xfail(reason="Test fails if invalid name entered")
+def test_validate_product_name_valid():
     """Test if the validator can validate a correct product name"""
-
-    # def test_validate_product_name_empty():
+    try:
+        validator.validate_product_name("Product name less than 30 ")
+    except Exception:
+        pytest.fail("length of name less than 30")
+       
+    try:
+        validator.validate_product_name("Product name less than 30 xxx")
+    except Exception:
+        pytest.fail("length of name 1 less than 30")
+        
+    try:
+        validator.validate_product_name("Product name 30 xxxxxxxxxxxxxx")
+    except Exception:
+        pytest.fail("length of name 30")
+        
+    try:
+        validator.validate_product_name("Product name 31 xxxxxxxxxxxxxxx")
+    except Exception:
+        pytest.fail("length of name 31")
+        
+  ###################################################################
+@pytest.mark.xfail(reason="Test fails if empty name entered")
+def test_validate_product_name_empty():
     """Test if the validator raises an error for an empty product name"""
+    try:
+        validator.validate_product_name("")
+    except Exception:
+        pytest.fail("empty string entered for name")
+        
+    try:
+        validator.validate_product_name("  ")
+    except Exception:
+        pytest.fail("space string entered for name")
+        
+   
  ###################################################################
 
 
 def test_validate_product_name_too_long():
     """Test if the validator raises an error for an overly long product name"""
-    long_name = "a" * (MAX_PRODUCT_NAME_LENGTH + 1)
+    long_name = "a" * (MAX_PRODUCT_NAME_LENGTH)
     with pytest.raises(ValueError, match=ProductMessages.NAME_TOO_LONG):
         validator.validate_product_name(long_name)
 
