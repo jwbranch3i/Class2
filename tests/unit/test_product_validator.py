@@ -36,7 +36,7 @@ def test_validate_product_id_with_try_except():
         validator.validate_product_id("abc")
     except Exception:
         pytest.fail(message)
-
+##################################################################################
 @pytest.mark.xfail(reason="Test should fail if id length is greater than 15")
 def test_validate_product_id_too_long():
     """Test if the validator raises an error for an overly long product ID"""
@@ -70,15 +70,22 @@ def test_validate_product_id_too_long():
         validator.validate_product_id("01234567890123456789")
     except Exception:
         pytest.fail("product id length > 15")
- 
-    # def test_validate_product_id_non_positive():
+ ###################################################################
+@pytest.mark.xfail(reason="Test fails if product_id has a non-positive value")
+def test_validate_product_id_non_positive():
     """Test if the validator raises an error for a non-positive product ID"""
+    try:
+        validator.validate_product_id("-5")
+    except Exception:
+        pytest.fail("product_id has negative value")
+  ###################################################################
 
     # def test_validate_product_name_valid():
     """Test if the validator can validate a correct product name"""
 
     # def test_validate_product_name_empty():
     """Test if the validator raises an error for an empty product name"""
+ ###################################################################
 
 
 def test_validate_product_name_too_long():
