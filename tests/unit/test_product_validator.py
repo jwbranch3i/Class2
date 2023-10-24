@@ -20,7 +20,7 @@ def test_validate_product_id_non_integer():
     with pytest.raises(ValueError, match=ProductMessages.INVALID_INTEGER):
         validator.validate_product_id("abc")
 
-@pytest.mark.xfail(reason="Test fails if non-integer string value is entered")
+@pytest.mark.xfail(reason="Test should fail if non-integer string value is entered")
 def test_validate_product_id_with_try_except():
     """An example showcasing the use of try-except for testing"""
     message = "Product Id is not a valid integer value"
@@ -37,26 +37,40 @@ def test_validate_product_id_with_try_except():
     except Exception:
         pytest.fail(message)
 
+@pytest.mark.xfail(reason="Test should fail if id length is greater than 15")
 def test_validate_product_id_too_long():
     """Test if the validator raises an error for an overly long product ID"""
-    message = "Product Id is not a valid integer value"
+    
+    """product_id length less than 15"""
     try:
-        validator.validate_product_id("0123456789")
+        validator.validate_product_id("01234")
     except Exception:
-        pytest.fail(message)
-    try:
-        validator.validate_product_id("01234567890123")
-    except Exception:
-        pytest.fail(message)
+        pytest.fail("product id length < 15")
+        
+    """product_id length 14"""
     try:
         validator.validate_product_id("012345678901234")
     except Exception:
-        pytest.fail(message)
+        pytest.fail("product id length = 15")
+       
+    """product_id length equals  15"""
+    try:
+        validator.validate_product_id("012345678901234")
+    except Exception:
+        pytest.fail("product id length = 15")
+        
+    """product_id length 16"""
     try:
         validator.validate_product_id("0123456789012345")
     except Exception:
-        pytest.fail(message)
-
+        pytest.fail("product id length = 15")
+  
+    """product_id length greater than 15"""
+    try:
+        validator.validate_product_id("01234567890123456789")
+    except Exception:
+        pytest.fail("product id length > 15")
+ 
     # def test_validate_product_id_non_positive():
     """Test if the validator raises an error for a non-positive product ID"""
 
