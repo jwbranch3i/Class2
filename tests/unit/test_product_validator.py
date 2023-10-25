@@ -81,8 +81,16 @@ def test_validate_product_price_valid():
     validator.validate_product_price("12.09")
    
 
-    # def test_validate_product_price_invalid():
+def test_validate_product_price_invalid():
     """Test if the validator raises an error for an invalid product price"""
+    
+    invalid_price = "12.er"
+    with pytest.raises(ValueError, match=ProductMessages.INVALID_PRICE):
+        validator.validate_product_price(invalid_price)
+    
+    negative_price = -23.98
+    with pytest.raises(ValueError, match=ProductMessages.NON_POSITIVE_PRICE):
+        validator.validate_product_price(negative_price)
 
 
 def test_validate_product_price_non_positive():
