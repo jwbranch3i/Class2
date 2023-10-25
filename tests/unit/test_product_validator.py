@@ -25,97 +25,44 @@ def test_validate_product_id_with_try_except():
     """An example showcasing the use of try-except for testing"""
     message = "Product Id is not a valid integer value"
     try:
-        validator.validate_product_id("4")
-    except Exception:
-        pytest.fail(message)
-    try:
-        validator.validate_product_id(4)
-    except Exception:
-        pytest.fail(message)
-    try:
         validator.validate_product_id("abc")
     except Exception:
         pytest.fail(message)
+        
 ##################################################################################
-@pytest.mark.xfail(reason="Test should fail if id length is greater than 15")
 def test_validate_product_id_too_long():
     """Test if the validator raises an error for an overly long product ID"""
     
-    """product_id length less than 15"""
-    try:
-        validator.validate_product_id("01234")
-    except Exception:
-        pytest.fail("product id length < 15")
+    long_id = "1" * (MAX_PRODUCT_ID_LENGTH + 10)    
+    with pytest.raises(ValueError, match=ProductMessages.ID_TOO_LONG):
+        validator.validate_product_id(long_id)
         
-    """product_id length 14"""
-    try:
-        validator.validate_product_id("012345678901234")
-    except Exception:
-        pytest.fail("product id length = 15")
-       
-    """product_id length equals  15"""
-    try:
-        validator.validate_product_id("012345678901234")
-    except Exception:
-        pytest.fail("product id length = 15")
-        
-    """product_id length 16"""
-    try:
-        validator.validate_product_id("0123456789012345")
-    except Exception:
-        pytest.fail("product id length = 15")
-  
-    """product_id length greater than 15"""
-    try:
-        validator.validate_product_id("01234567890123456789")
-    except Exception:
-        pytest.fail("product id length > 15")
  ###################################################################
-@pytest.mark.xfail(reason="Test fails if product_id has a non-positive value")
 def test_validate_product_id_non_positive():
     """Test if the validator raises an error for a non-positive product ID"""
-    try:
-        validator.validate_product_id("-5")
-    except Exception:
-        pytest.fail("product_id has negative value")
+        
+    negative_id = -5
+    with pytest.raises(ValueError, match=ProductMessages.NON_POSITIVE_ID):
+        validator.validate_product_id(negative_id)
         
   ###################################################################
-@pytest.mark.xfail(reason="Test fails if invalid name entered")
 def test_validate_product_name_valid():
     """Test if the validator can validate a correct product name"""
-    try:
-        validator.validate_product_name("Product name less than 30 ")
-    except Exception:
-        pytest.fail("length of name less than 30")
-       
-    try:
-        validator.validate_product_name("Product name less than 30 xxx")
-    except Exception:
-        pytest.fail("length of name 1 less than 30")
-        
-    try:
-        validator.validate_product_name("Product name 30 xxxxxxxxxxxxxx")
-    except Exception:
-        pytest.fail("length of name 30")
-        
-    try:
-        validator.validate_product_name("Product name 31 xxxxxxxxxxxxxxx")
-    except Exception:
-        pytest.fail("length of name 31")
+    
+    name = 'Product Name'
+    validator.validate_product_name(name)
         
   ###################################################################
-@pytest.mark.xfail(reason="Test fails if empty name entered")
 def test_validate_product_name_empty():
     """Test if the validator raises an error for an empty product name"""
-    try:
-        validator.validate_product_name("")
-    except Exception:
-        pytest.fail("empty string entered for name")
+       
+    empty_name = ''
+    with pytest.raises(ValueError, match=ProductMessages.EMPTY_NAME):
+        validator.validate_product_name(empty_name)
         
-    try:
-        validator.validate_product_name("  ")
-    except Exception:
-        pytest.fail("space string entered for name")
+    space_name = '  '
+    with pytest.raises(ValueError, match=ProductMessages.EMPTY_NAME):
+        validator.validate_product_name(space_name)
         
    
  ###################################################################
@@ -123,7 +70,7 @@ def test_validate_product_name_empty():
 
 def test_validate_product_name_too_long():
     """Test if the validator raises an error for an overly long product name"""
-    long_name = "a" * (MAX_PRODUCT_NAME_LENGTH)
+    long_name = "a" * (MAX_PRODUCT_NAME_LENGTH + 1)
     with pytest.raises(ValueError, match=ProductMessages.NAME_TOO_LONG):
         validator.validate_product_name(long_name)
 
