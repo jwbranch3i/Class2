@@ -14,11 +14,13 @@ def test_validate_product_id_valid():
     """Test if the validator can validate a correct product ID"""
     assert validator.validate_product_id("1") == 1
 
+##################################################################################
 
 def test_validate_product_id_non_integer():
     """Test if the validator raises an error for a non-integer product ID"""
     with pytest.raises(ValueError, match=ProductMessages.INVALID_INTEGER):
         validator.validate_product_id("abc")
+##################################################################################
 
 @pytest.mark.xfail(reason="Test should fail if non-integer string value is entered")
 def test_validate_product_id_with_try_except():
@@ -73,6 +75,7 @@ def test_validate_product_name_too_long():
     long_name = "a" * (MAX_PRODUCT_NAME_LENGTH + 1)
     with pytest.raises(ValueError, match=ProductMessages.NAME_TOO_LONG):
         validator.validate_product_name(long_name)
+ ###################################################################
 
 def test_validate_product_price_valid():
     """Test if the validator can validate a correct product price"""
@@ -80,6 +83,7 @@ def test_validate_product_price_valid():
     
     validator.validate_product_price("12.09")
    
+ ###################################################################
 
 def test_validate_product_price_invalid():
     """Test if the validator raises an error for an invalid product price"""
@@ -87,22 +91,29 @@ def test_validate_product_price_invalid():
     invalid_price = "12.er"
     with pytest.raises(ValueError, match=ProductMessages.INVALID_PRICE):
         validator.validate_product_price(invalid_price)
-    
-    negative_price = -23.98
-    with pytest.raises(ValueError, match=ProductMessages.NON_POSITIVE_PRICE):
-        validator.validate_product_price(negative_price)
 
+ ###################################################################
 
 def test_validate_product_price_non_positive():
     """Test if the validator raises an error for a non-positive product price"""
     with pytest.raises(ValueError, match=ProductMessages.NON_POSITIVE_PRICE):
         validator.validate_product_price("-10")
+ ###################################################################
 
-    # def test_validate_product_quantity_valid():
+def test_validate_product_quantity_valid():
     """Test if the validator can validate a correct product quantity"""
+    invalid_quantity = "wer"
+    with pytest.raises(ValueError, match=ProductMessages.INVALID_QUANTITY):
+        validator.validate_product_quantity(invalid_quantity)
+ ###################################################################
 
-    # def test_validate_product_quantity_invalid():
+def test_validate_product_quantity_invalid():
     """Test if the validator raises an error for an invalid product quantity"""
+    negative_quantity = -12
+    with pytest.raises(ValueError, match=ProductMessages.NEGATIVE_QUANTITY):
+        validator.validate_product_quantity(negative_quantity)
+   
+ ###################################################################
 
 
 def test_validate_product_quantity_negative():
