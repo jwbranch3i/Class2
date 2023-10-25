@@ -74,8 +74,12 @@ def test_validate_product_name_too_long():
     with pytest.raises(ValueError, match=ProductMessages.NAME_TOO_LONG):
         validator.validate_product_name(long_name)
 
-    # def test_validate_product_price_valid():
+def test_validate_product_price_valid():
     """Test if the validator can validate a correct product price"""
+    validator.validate_product_price(12.09)
+    
+    validator.validate_product_price("12.09")
+   
 
     # def test_validate_product_price_invalid():
     """Test if the validator raises an error for an invalid product price"""
